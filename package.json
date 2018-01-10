@@ -1,0 +1,19 @@
+{
+  "name": "hemera-testsuite-error",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "hapi": "^16.5.0",
+    "hapi-hemera": "^1.0.x",
+    "nats-hemera": "^3.1.6",
+    "hemera-testsuite": "^2.0.5",
+    "lab": "^14.1.1",
+    "code": "^4.1.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
