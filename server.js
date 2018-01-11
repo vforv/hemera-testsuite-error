@@ -4,6 +4,8 @@ const Hapi = require('hapi');
 
 
 
+var PORT = 6242
+var authUrl = 'nats://localhost:' + PORT
 
 module.exports.server = (env) => {
   const server = new Hapi.Server();
@@ -20,7 +22,7 @@ module.exports.server = (env) => {
                   tag: 'hemera-1'
               },
               nats: {
-                  'url': `nats://localhost:4222`
+                  'url': authUrl
               }
           }
       }], {

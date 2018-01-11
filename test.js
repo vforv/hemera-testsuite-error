@@ -7,20 +7,33 @@ const Hemera = require('nats-hemera')
 const serverMod = require('./server');
 const L = exports.lab = lab.script();
 const expect = code.expect;
-const Nats = require('hemera-testsuite/nats')
+const HemeraTestsuite = require('hemera-testsuite')
 
 
-const server = serverMod.server(false)
+let server
+
+var PORT = 6242
+var authUrl = 'nats://localhost:' + PORT
+var natsS
+
+// Start up our own nats-server
+L.before(function (done) {
+    natsS = HemeraTestsuite.start_server(PORT, done);
+    server = serverMod.server(false);
+})
+
+// Shutdown our server after we are done
+L.after(function () {
+    natsS.kill()
+})
 
 L.experiment('General info non individual kycc test', () => {
 
     L.test('Create general info', (done) => {
-      const nats = new Nats()
-        const hemera = new Hemera(nats, {
-            logLevel: 'info'
-        });
+        const nats = require('nats').connect(authUrl)
+        const hemera = new Hemera(nats)
 
-      hemera.ready(() => {
+        hemera.ready(() => {
             hemera.add({
                 topic: "simple",
                 cmd: "act"
@@ -29,15 +42,15 @@ L.experiment('General info non individual kycc test', () => {
             })
 
             const options = {
-                      method: "GET",
-                      url: "/v1/route",
-                      payload: {
-                      }
-                  };
+                method: "GET",
+                url: "/v1/route",
+                payload: {
+                }
+            };
 
             server.inject(options, (response) => {
-                    done();
-                });
+                done();
+            });
 
         });
 
